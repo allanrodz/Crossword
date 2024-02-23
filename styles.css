@@ -23,9 +23,10 @@ h6 {
     background-color: #000000;
 }
 
-input, select, textarea {
-    font-size: 16px; /* Adjust as needed to prevent zooming */
+body, input, select, textarea {
+    -webkit-text-size-adjust: 100%; /* Prevent font scaling in landscape mode */
 }
+
 
 body {
     cursor: default;
