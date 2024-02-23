@@ -23,6 +23,10 @@ h6 {
     background-color: #000000;
 }
 
+input, select, textarea {
+    font-size: 16px; /* Adjust as needed to prevent zooming */
+}
+
 body {
     cursor: default;
     font-size: small;
@@ -171,7 +175,6 @@ div {
 
 .ecw-input {
     font-family: "Segoe UI", "Verdana", "Arial", sans-serif;
-    touch-action: manipulation; /* Disable default touch behaviors */
 }
 
 .ecw-wordlabel {
