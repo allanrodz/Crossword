@@ -23,10 +23,6 @@ h6 {
     background-color: #000000;
 }
 
-body, input, select, textarea {
-    -webkit-text-size-adjust: 100%; /* Prevent font scaling in landscape mode */
-}
-
 
 body {
     cursor: default;
