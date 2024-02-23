@@ -171,6 +171,7 @@ div {
 
 .ecw-input {
     font-family: "Segoe UI", "Verdana", "Arial", sans-serif;
+    touch-action: manipulation; /* Disable default touch behaviors */
 }
 
 .ecw-wordlabel {
