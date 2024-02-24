@@ -443,6 +443,42 @@ document.addEventListener('DOMContentLoaded', (event) => {
     tapToSkip.textContent = 'Tap to Skip Instructions';
     initialOverlay.appendChild(tapToSkip);
 
+	// Listener for clicks outside the answer box to close it and attempt to reset zoom
+	document.addEventListener('click', function(event) {
+		var isClickInsideAnswerBox = document.getElementById('answerbox') && document.getElementById('answerbox').contains(event.target);
+		var isClickOnTapToSkip = event.target.classList.contains('tap-to-skip');
+	
+		// If the click is not inside the answer box and not on the "Tap to Skip" button, do nothing
+		if (isClickInsideAnswerBox || isClickOnTapToSkip) {
+			return;
+		}
+	
+		// Close the answer box for clicks outside the answer box, and not during typing
+		if (!typingCompleted && !isClickInsideAnswerBox) {
+			closeAnswerBox();
+		}
+	});
+	
+	// Adjust closeAnswerBox function to check if answer box is currently shown
+	function closeAnswerBox() {
+		if (document.getElementById('answerOverlay').style.display !== 'none') {
+			document.getElementById('answerOverlay').style.display = 'none';
+			// Additional logic for resetting the state as needed
+		}
+	}
+	
+
+	// Specific listeners for the "OK" and "Cancel" buttons
+	document.getElementById('okbutton').addEventListener('click', closeAnswerBox);
+	document.getElementById('cancelbutton').addEventListener('click', closeAnswerBox);
+
+	function closeAnswerBox() {
+		document.getElementById('answerOverlay').style.display = 'none';
+		// Additional actions to reset the page state as necessary
+		window.scrollTo(0, 0); // Scrolls to the top to mitigate zoom
+	}
+
+
     // Function to remove overlay and skip instructions
     function skipInstructions() {
         initialOverlay.style.opacity = '0';
