@@ -188,7 +188,7 @@ div {
 
 .ecw-input {
     font-family: "Segoe UI", "Verdana", "Arial", sans-serif;
-    font-size: 12px;
+    font-size: 8px;
 }
 
 .ecw-wordlabel {
@@ -255,21 +255,19 @@ div {
 }
 
 @keyframes blink {
-    0% { opacity: 1; }
-    50% { opacity: 0; }
-    100% { opacity: 1; }
+    0%, 100% { color: white; }
+    50% { color: orange; }
 }
 
 .tap-to-skip {
-    position: fixed; /* This ensures it's fixed relative to the viewport */
-    bottom: 20px; /* Keeps it at the bottom */
-    left: 50%;
-    transform: translateX(-50%);
-    color: white;
+    position: fixed; /* Keeps the message fixed at the bottom */
+    bottom: 20px; /* Distance from the bottom */
+    left: 50%; /* Center horizontally */
+    transform: translateX(-50%); /* Adjust horizontal position to truly center */
     font-weight: bold;
     font-size: 16px; /* Adjust based on your preference */
-    animation: blink 1s linear infinite;
+    animation: blink 2s linear infinite; /* Apply the blinking animation */
     cursor: pointer;
-    z-index: 2100; /* Ensure it's above the overlay content */
+    z-index: 2100; /* Ensure it's above other content */
 }
 
