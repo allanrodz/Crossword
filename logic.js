@@ -502,5 +502,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
     });
 
     typeNextPart(); // Start typing
+
+	
 });
 
