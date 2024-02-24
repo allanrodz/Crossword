@@ -117,12 +117,17 @@ function CellAt(x, y)
 // Deselects the current word, if there's a word selected.  DOES not change the value of CurrentWord.
 function DeselectCurrentWord()
 {
+	
+
 	if (CurrentWord < 0) return;
 	var x, y, i;
 	
 	document.getElementById("answerbox").style.display = "none";
 	ChangeCurrentWordSelectedStyle(false);
 	CurrentWord = -1;
+
+	document.getElementById("answerbox").style.display = "none";
+	document.getElementById("answerOverlay").style.display = "none"; // Hide the overlay
 	
 }
 
@@ -160,6 +165,8 @@ function ChangeCurrentWordSelectedStyle(IsSelected)
 // event object, and then applying styles as necessary.
 function SelectThisWord(event)
 {
+	
+
 	if (CrosswordFinished) return;
 	var x, y, i, TheirWord, TableCell;
 	
@@ -230,6 +237,10 @@ function SelectThisWord(event)
 	catch (e)
 	{
 	}
+
+	// Finally, show the answer box.
+	document.getElementById("answerbox").style.display = "block";
+	document.getElementById("answerOverlay").style.display = "block"; // Show the overlay
 	
 }
 
@@ -370,3 +381,30 @@ function HashWord(Word)
 		Hash = (Hash * i + 5 + (Word.charCodeAt(i - 1) - 64) * x) % 98503;
 	return Hash;
 }
+
+
+document.addEventListener('click', function(event) {
+    var isClickInsideAnswerBox = document.getElementById('answerbox').contains(event.target);
+    var isClickOnOverlay = event.target === document.getElementById('answerOverlay');
+
+    if (isClickOnOverlay && !isClickInsideAnswerBox) {
+        hideOverlay();
+    }
+});
+
+
+function showOverlay() {
+    document.getElementById("answerOverlay").style.display = "flex";
+    document.getElementById("answerbox").style.display = "block";
+    // Manually setting text for testing
+    document.getElementById("wordlabel").innerText = "Test Word Label";
+    document.getElementById("wordinfo").innerText = "Test Word Info";
+    document.getElementById("wordclue").innerText = "Test Word Clue";
+}
+
+
+function hideOverlay() {
+    document.getElementById("answerOverlay").style.display = "none";
+    document.getElementById("answerbox").style.display = "none";
+}
+
