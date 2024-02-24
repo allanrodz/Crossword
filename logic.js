@@ -408,3 +408,99 @@ function hideOverlay() {
     document.getElementById("answerbox").style.display = "none";
 }
 
+
+document.addEventListener('DOMContentLoaded', (event) => {
+
+	
+    let typingCompleted = false;
+    const initialOverlay = document.createElement('div');
+    initialOverlay.id = 'initialOverlay';
+    const typingText = document.createElement('div');
+    typingText.classList.add('typing-text');
+    initialOverlay.appendChild(typingText);
+    document.body.appendChild(initialOverlay);
+
+    // Expanded content with HTML tags for styling parts in amber
+    const contentParts = [
+		{ content: '<h1>Welcome to the <span class="section-title">Kilkenny Hurling Legends Crossword!</span></h1>', type: 'html' },
+        { content: '\n\nDive into the legacy of Kilkenny\'s hurling heroes in this engaging crossword puzzle. Each clue and answer celebrates the illustrious careers of some of the most famous hurlers from Kilkenny, a county with a rich history in the sport of hurling. From legendary goalkeepers to iconic field players, this puzzle spans generations of talent that have graced the pitch.\n\n', type: 'text' },
+        { content: '<h3><span class="section-title">How It Works:</span></h3>', type: 'html' },
+        { content: '\n\nNavigate the Grid: ', type: 'text' },
+        { content: 'Use your mouse or touch to select a crossword square. The selected clue will appear at the top, guiding you to fill in the player\'s last name.\n', type: 'text' },
+        { content: '<h3><span class="section-title">Enter Your Answers:</span></h3> ', type: 'html' },
+        { content: 'Type in the last name of the hurler corresponding to the clue provided. If you\'re stuck, try moving on to other clues — sometimes, filling in surrounding answers can help!\n', type: 'text' },
+        { content: '<h3><span class="section-title">Check Your Progress: </span></h3>', type: 'html' },
+        { content: 'Feel free to use the "Check for mistakes" button to review your answers. But remember, each clue is a chance to recall the glorious moments these players brought to the game.\n', type: 'text' },
+        { content: '<h3><span class="section-title">Submit with Confidence:</span></h3>', type: 'html' },
+        { content: 'Once you\'ve filled in all the names, press the "OK" button to submit your answers. Don\'t worry if you don\'t get everything right the first time; this is an opportunity to learn about the legends of Kilkenny hurling.', type: 'text' }
+    ];
+
+    let partIndex = 0; // To keep track of which part of the content we're on
+    const speed = 25; // Typing speed
+
+	const tapToSkip = document.createElement('div');
+    tapToSkip.classList.add('tap-to-skip');
+    tapToSkip.textContent = 'Tap to Skip Instructions';
+    initialOverlay.appendChild(tapToSkip);
+
+    // Function to remove overlay and skip instructions
+    function skipInstructions() {
+        initialOverlay.style.opacity = '0';
+        setTimeout(() => initialOverlay.remove(), 1000); // Remove after fade
+    }
+
+    // Event listener to skip instructions on tap/click
+    tapToSkip.addEventListener('click', skipInstructions);
+
+
+    function typeNextPart() {
+        if (partIndex < contentParts.length) {
+            const part = contentParts[partIndex];
+            if (part.type === 'text') {
+                typeText(part.content, () => {
+                    partIndex++;
+                    typeNextPart();
+                });
+            } else if (part.type === 'html') {
+                typingText.innerHTML += part.content;
+                partIndex++;
+                setTimeout(typeNextPart, speed);
+            }
+        } else {
+            typingCompleted = true;
+            setTimeout(() => initialOverlay.style.opacity = '0', 5000); // Automatic fade out
+        }
+    }
+
+	function typeText(text, callback) {
+		let i = 0;
+		function type() {
+			if (i < text.length) {
+				typingText.innerHTML += text.charAt(i);
+				i++;
+				// Ensure the latest typed content is visible
+				initialOverlay.scrollTop = initialOverlay.scrollHeight;
+				setTimeout(type, speed);
+			} else if (callback) {
+				callback();
+			}
+		}
+		type();
+	}
+	
+
+    initialOverlay.addEventListener('click', () => {
+        if (!typingCompleted) {
+            // Complete the typing immediately
+            typingText.innerHTML += contentParts.slice(partIndex).map(part => part.content).join('');
+            typingCompleted = true;
+            setTimeout(() => initialOverlay.style.opacity = '0', 5000); // Wait 5 seconds then fade out
+        } else {
+            initialOverlay.style.opacity = '0'; // Fade out immediately if text was completed
+            setTimeout(() => initialOverlay.remove(), 1000); // Remove after fade
+        }
+    });
+
+    typeNextPart(); // Start typing
+});
+

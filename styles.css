@@ -213,3 +213,62 @@ div {
     border: solid #000000;
     border-width: 1px;
 }
+
+
+#initialOverlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    font-family: 'Balsamiq Sans', cursive;
+    padding: 20px;
+    box-sizing: border-box;
+    z-index: 2000; /* Ensure it's above everything else */
+    overflow-y: auto; /* Allows scrolling */
+}
+
+.typing-text {
+    padding-bottom: 60px; /* Adjust so there's enough space for the 'Tap to Skip' button */
+    color: white; /* Default text color for the body */
+    border-right: 2px solid amber;
+    white-space: pre-wrap; /* Allows for line breaks in your typing text */
+    font-size: 20px;
+    margin: auto; /* Keeps the text vertically centered */
+}
+
+.typing-text .section-title {
+    color: orange; /* Assuming orange is close to your desired amber. Adjust the color as needed. */
+}
+
+
+@media (max-width: 768px) {
+    .typing-text {
+        font-size: 16px; /* Adjust font size for smaller screens */
+    }
+}
+
+@keyframes blink {
+    0% { opacity: 1; }
+    50% { opacity: 0; }
+    100% { opacity: 1; }
+}
+
+.tap-to-skip {
+    position: fixed; /* This ensures it's fixed relative to the viewport */
+    bottom: 20px; /* Keeps it at the bottom */
+    left: 50%;
+    transform: translateX(-50%);
+    color: white;
+    font-weight: bold;
+    font-size: 16px; /* Adjust based on your preference */
+    animation: blink 1s linear infinite;
+    cursor: pointer;
+    z-index: 2100; /* Ensure it's above the overlay content */
+}
+
